@@ -1,16 +1,16 @@
-# RedScan-Py: Escáner de Autenticación en Red Local
+# RedScan-Py: Escáner de Autenticación Local
 
 ## 📌 Descripción General del Proyecto
 
-**RedScan-Py** es una herramienta de auditoría de seguridad desarrollada en Python, diseñada para automatizar la revisión básica de seguridad en redes locales (LAN).
+**RedScan-Py** es una herramienta de auditoría de seguridad desarrollada en Python y orquestada con PowerShell, diseñada para automatizar la revisión de seguridad básica en la máquina local.
 
 El propósito principal del proyecto es:
 
-* **Identificar dispositivos activos** dentro de una subred.
-* **Evaluar configuraciones SSH** mediante pruebas controladas en el puerto 22.
-* **Detectar credenciales débiles o por defecto** para identificar configuraciones inseguras.
+* **Auto-descubrimiento:** Identificar la dirección IP local activa de la máquina.
+* **Auto-evaluación:** Evaluar la configuración SSH de la propia máquina (probando en `localhost` o la IP detectada) mediante pruebas controladas.
+* **Detección de Credenciales:** Usar una lista de credenciales débiles para verificar si el servicio SSH es vulnerable.
 
-El proyecto forma parte del área de **Red Team / Pentesting**, simulando un escenario real de reconocimiento y fuerza bruta autorizada dentro de un entorno controlado.
+El proyecto forma parte del área de **Red Team / Pentesting**, simulando un escenario de auto-auditoría para identificar configuraciones inseguras antes de que sean explotadas.
 
 ---
 
@@ -30,7 +30,6 @@ Este software fue desarrollado con fines **académicos y educativos**, dentro de
 * Redes públicas
 * Sistemas de terceros sin permiso por escrito
 
-La herramienta **no almacena credenciales exitosas**, no realiza acciones de post-explotación y emplea contraseñas sintéticas de dominio público.
 El equipo no se responsabiliza por el uso indebido de este software.
 
 ---
@@ -38,79 +37,77 @@ El equipo no se responsabiliza por el uso indebido de este software.
 ## 📂 Estructura del Proyecto
 
 ```
+
 RedScan-Py/
-└── src/
-│    └── Tarea2_check_ssh.py              # Función principal para pruebas SSH
-│    └── runs_scan.py           
-│    └── ai_summary.py             # Integración con Google Gemini
-│    └── main.py                   # Orquestación del flujo
-│
-├── scripts/
-│   └── run_pipeline.sh       # Script para ejecutar todo el proceso
-│
-├── prompts/
-│   └── prompt_v1.json        # Prompt base de IA
-│
-├── examples/
-│   ├── logs.jsonl            # Logs generados (JSON Lines)
-│   ├── ai_output.json        # Salida generada por la IA
-│   └── scan_results.json     # Resultados del escaneo
-│   └── test_check_ssh.py     # Evidencia de funcionamiento
-│
 ├── docs/
-│   ├── propuesta.md          # Documento técnico inicial
-│   ├── ai_plan.md            # Plan de integración de IA
-│   └── entregable_2.md       
-│   └── entregable_3.md
-│   └── entregable_4.md   
-```
+│   ├── ai\_plan.md            \# Plan de integración de IA
+│   ├── entregable\_2.md
+│   └── entregable\_3.md
+├── examples/
+│   ├── logs.jsonl            \# Logs generados (JSON Lines)
+│   ├── ai\_summary\_...txt     \# Salida generada por la IA
+│   └── scan\_results.json     \# Resultados del escaneo
+├── prompts/
+│   └── prompt\_v1.json        \# Prompt base de IA
+├── scripts/
+│   └── run\_pipeline.ps1      \# Orquestador principal (PowerShell)
+├── src/
+│   ├── Tarea2\_check\_ssh.py   \# Módulo para probar la conexión SSH
+│   ├── run\_scan.py           \# Script Tarea 1: Detecta IP y prueba SSH
+│   └── ai\_summary.py         \# Script Tarea 2: Integración con Google Gemini
+├── README.md                 \# Este archivo
+└── requirements.txt          \# Dependencias de Python
+
+````
 
 ---
 
-## 🔧 Ejecución del Proyecto
+## 🔧 Ejecución del Proyecto (Windows)
 
-### **1️⃣ Instalar dependencias**
+Este proyecto está diseñado para ejecutarse en un entorno **Windows** con **PowerShell**.
 
-```bash
+### **1️⃣ Preparar el Entorno Virtual**
+
+Asegúrate de tener un entorno virtual (`.venv`) y las dependencias instaladas.
+```powershell
+# Activa el entorno (ejecútalo desde la raíz del proyecto)
+.\.venv\Scripts\Activate.ps1
+
+# Instala las dependencias (solo la primera vez)
 pip install -r requirements.txt
+````
+
+### **2️⃣ Ejecutar el Pipeline Completo**
+
+El script `run_pipeline.ps1` automatiza todo el proceso.
+
+```powershell
+# Navega a la carpeta de scripts
+cd scripts
+
+# Ejecuta el pipeline
+powershell.exe -ExecutionPolicy Bypass -File .\run_pipeline.ps1
 ```
 
-### **2️⃣ Dar permisos al script (Linux/Mac)**
+Este script ejecuta **todo el flujo técnico**:
 
-```bash
-chmod +x scripts/run_pipeline.sh
-```
+1.  **Solicitud de API:** Te preguntará por tu API Key de Google Gemini si no la encuentra guardada.
+2.  **Escaneo (Python):** Ejecuta `run_scan.py` para detectar la IP local y probar las credenciales SSH.
+3.  **Análisis (Python):** Ejecuta `ai_summary.py` para enviar los resultados a la IA.
+4.  **Logging (PowerShell):** Registra todos los pasos en `examples/logs.jsonl`.
+5.  **Reporte (IA):** Genera un resumen final en la carpeta `/examples`.
 
-### **3️⃣ Ejecutar el pipeline completo**
-
-```bash
-./scripts/run_pipeline.sh
-```
-
-Este script ejecuta **todo el flujo técnico**, incluyendo:
-
-1. Escaneo de red
-2. Pruebas SSH
-3. Logging estructurado
-4. Llamada a IA (Gemini)
-5. Generación del resumen final
-
----
+-----
 
 ## 🤖 Integración de IA
 
-Se incorporó inteligencia artificial para análisis automático de riesgos de seguridad.
-La IA genera:
+Se incorporó inteligencia artificial para el análisis de los resultados del escaneo. La IA (Google Gemini) se utiliza para:
 
-* Resúmenes de hallazgos
-* Identificación de patrones
-* Recomendaciones técnicas
-* Evaluación de exposición de la red
+  * Resumir los hallazgos del escaneo (éxitos o fracasos).
+  * Proveer un análisis simple de la postura de seguridad.
 
 ### Implementación incluida
 
-* `ai_summary.py` → Implementación de Google Gemini
-* Prompt en `prompts/prompt_v1.json`
-* Salida guardada en `/examples/ai_output.json`
-* Orquestación automática desde `run_pipeline.sh`
-* Logging estructurado en `.jsonl`
+  * `src/ai_summary.py` → Módulo que se conecta a la API de Google Gemini.
+  * `prompts/prompt_v1.json` → Plantilla del prompt enviado a la IA.
+  * `scripts/run_pipeline.ps1` → Orquestador que llama al script de IA y maneja la API key de forma interactiva.
