@@ -1,0 +1,1 @@
+v1.0.0 - Lanzamiento inicial del pipeline de escaneo y IA.

@@ -1,0 +1,1 @@
+Este es un proyecto académico. No usar en producción. Reportar vulnerabilidades creando un Issue.
