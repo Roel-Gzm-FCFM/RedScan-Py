@@ -1,40 +1,116 @@
 # RedScan-Py: Escáner de Autenticación en Red Local
 
-## Descripción General del Proyecto
+## 📌 Descripción General del Proyecto
 
-RedScan-Py es una herramienta de auditoría de seguridad desarrollada en Python, diseñada para automatizar la revisión de seguridad básica en redes locales (LAN).
+**RedScan-Py** es una herramienta de auditoría de seguridad desarrollada en Python, diseñada para automatizar la revisión básica de seguridad en redes locales (LAN).
 
-El propósito principal del proyecto es **identificar dispositivos activos** en una subred y, posteriormente, **evaluar la robustez de sus configuraciones de acceso SSH** (puerto 22) mediante la comprobación de credenciales débiles o por defecto.
+El propósito principal del proyecto es:
 
-Este proyecto pertenece al área de **Red Team / Pentesting**, simulando un ataque de reconocimiento y fuerza bruta interna para identificar y reportar vulnerabilidades de autenticación antes de que un actor malicioso pueda explotarlas.
+* **Identificar dispositivos activos** dentro de una subred.
+* **Evaluar configuraciones SSH** mediante pruebas controladas en el puerto 22.
+* **Detectar credenciales débiles o por defecto** para identificar configuraciones inseguras.
 
-## Declaración Ética y Legal
+El proyecto forma parte del área de **Red Team / Pentesting**, simulando un escenario real de reconocimiento y fuerza bruta autorizada dentro de un entorno controlado.
 
-Este software ha sido desarrollado con fines **estrictamente académicos y educativos** en el marco del Producto Integrador de Aprendizaje (PIA) de la materia de Programación para Ciberseguridad.
+---
 
-* **Uso Autorizado:** La herramienta solo debe ejecutarse en entornos de laboratorio controlados, redes privadas (propias) o sobre sistemas donde se tenga autorización explícita para realizar pruebas de penetración.
-* **Prohibición:** Se prohíbe estrictamente el uso de esta herramienta en redes públicas, corporativas o de terceros sin consentimiento previo por escrito.
-* **Datos:** Las listas de contraseñas utilizadas para las pruebas son sintéticas y de dominio público (ej. '123456', 'admin'), y no representan credenciales reales de ningún sistema.
-* **No Malicia:** El objetivo es reportar vulnerabilidades, no explotarlas. La herramienta no almacenará credenciales exitosas ni intentará realizar acciones post-explotación.
+## ⚖️ Declaración Ética y Legal
 
-El equipo de desarrollo no se hace responsable del mal uso de este código.
+Este software fue desarrollado con fines **académicos y educativos**, dentro del Producto Integrador de Aprendizaje (PIA) de la materia *Programación para Ciberseguridad*.
 
-## Estado del Proyecto
+### ✔ Uso permitido
 
- Función `check_ssh` implementada en `/check_ssh.py`  
- Evidencia de ejecución en `/test_check_ssh.py`  
- Logging en formato JSON Lines (`ssh_log.jsonl`)  
- Documentación técnica actualizada (`/docs/propuesta.md`)  
+* Laboratorios personales
+* Redes privadas propias
+* Sistemas donde exista **autorización explícita**
 
-## 🚀 Integración de IA (Entregable 3)
+### ❌ Prohibido
 
-- Se integró el módulo `ai_summary.py` con la API de Google Gemini.
-- Se añadió el script de orquestación `scripts/run_pipeline.sh`.
-- Se implementó logging en formato JSON Lines (`examples/logs.jsonl`).
-- Documentación del plan de IA en `/docs/ai_plan.md`.
-- Prompt base en `/prompts/prompt_v1.json`.
+* Redes corporativas
+* Redes públicas
+* Sistemas de terceros sin permiso por escrito
 
-### 🔧 Ejecución del flujo
+La herramienta **no almacena credenciales exitosas**, no realiza acciones de post-explotación y emplea contraseñas sintéticas de dominio público.
+El equipo no se responsabiliza por el uso indebido de este software.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+RedScan-Py/
+└── src/
+│    └── Tarea2_check_ssh.py              # Función principal para pruebas SSH
+│    └── runs_scan.py           
+│    └── ai_summary.py             # Integración con Google Gemini
+│    └── main.py                   # Orquestación del flujo
+│
+├── scripts/
+│   └── run_pipeline.sh       # Script para ejecutar todo el proceso
+│
+├── prompts/
+│   └── prompt_v1.json        # Prompt base de IA
+│
+├── examples/
+│   ├── logs.jsonl            # Logs generados (JSON Lines)
+│   ├── ai_output.json        # Salida generada por la IA
+│   └── scan_results.json     # Resultados del escaneo
+│   └── test_check_ssh.py     # Evidencia de funcionamiento
+│
+├── docs/
+│   ├── propuesta.md          # Documento técnico inicial
+│   ├── ai_plan.md            # Plan de integración de IA
+│   └── entregable_2.md       
+│   └── entregable_3.md
+│   └── entregable_4.md   
+```
+
+---
+
+## 🔧 Ejecución del Proyecto
+
+### **1️⃣ Instalar dependencias**
+
+```bash
+pip install -r requirements.txt
+```
+
+### **2️⃣ Dar permisos al script (Linux/Mac)**
+
 ```bash
 chmod +x scripts/run_pipeline.sh
+```
+
+### **3️⃣ Ejecutar el pipeline completo**
+
+```bash
 ./scripts/run_pipeline.sh
+```
+
+Este script ejecuta **todo el flujo técnico**, incluyendo:
+
+1. Escaneo de red
+2. Pruebas SSH
+3. Logging estructurado
+4. Llamada a IA (Gemini)
+5. Generación del resumen final
+
+---
+
+## 🤖 Integración de IA
+
+Se incorporó inteligencia artificial para análisis automático de riesgos de seguridad.
+La IA genera:
+
+* Resúmenes de hallazgos
+* Identificación de patrones
+* Recomendaciones técnicas
+* Evaluación de exposición de la red
+
+### Implementación incluida
+
+* `ai_summary.py` → Implementación de Google Gemini
+* Prompt en `prompts/prompt_v1.json`
+* Salida guardada en `/examples/ai_output.json`
+* Orquestación automática desde `run_pipeline.sh`
+* Logging estructurado en `.jsonl`
