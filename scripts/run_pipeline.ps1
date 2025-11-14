@@ -1,4 +1,4 @@
-﻿# --- CONFIGURACIÓN AVANZADA DE CODIFICACIÓN ---
+# --- CONFIGURACIÓN AVANZADA DE CODIFICACIÓN ---
 # 1. Asegura que la consola MUESTRE caracteres UTF-8 (acentos, ¿)
 [System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 # 2. Asegura que los COMANDOS (Write-Host, Out-File) ESCRIBAN en UTF-8
@@ -62,7 +62,8 @@ if (Test-Path $apiKeyFile) {
 } else {
     # (¡Acentos restaurados!)
     Write-Host "No se encontró un archivo de API key." -ForegroundColor Yellow
-    $ApiKey = Read-Host "Por favor, ingresa tu clave de API de Google Gemini"
+    $secureApiKey = Read-Host -AsSecureString "Por favor, ingresa tu clave de API de Google Gemini"
+    $ApiKey = [System.Net.NetworkCredential]::new("", $secureApiKey).Password
     $env:GOOGLE_API_KEY = $ApiKey
     
     # (¡'¿' restaurado!)
