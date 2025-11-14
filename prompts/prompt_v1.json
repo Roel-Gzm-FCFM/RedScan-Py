@@ -1,0 +1,6 @@
+{
+  "version": "1.0",
+  "tarea": "Analizar resultados de escaneo de red",
+  "template": "Analiza los siguientes resultados y sugiere mejoras de seguridad.",
+  "instrucciones": "Indica los puertos más riesgosos y una recomendación general."
+}
