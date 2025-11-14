@@ -8,7 +8,7 @@ El propósito principal del proyecto es:
 
 * **Auto-descubrimiento:** Identificar la dirección IP local activa de la máquina.
 * **Auto-evaluación:** Evaluar la configuración SSH de la propia máquina (probando en `localhost` o la IP detectada) mediante pruebas controladas.
-* **Detección de Credenciales:** Usar una lista de credenciales débiles para verificar if el servicio SSH es vulnerable.
+* **Detección de Credenciales:** Usar una lista de credenciales débiles (cargadas desde `users.txt` y `passwords.txt`) para verificar si el servicio SSH es vulnerable.
 
 El proyecto forma parte del área de **Red Team / Pentesting**, simulando un escenario de auto-auditoría para identificar configuraciones inseguras antes de que sean explotadas.
 
@@ -19,18 +19,26 @@ El proyecto forma parte del área de **Red Team / Pentesting**, simulando un esc
 Este software fue desarrollado con fines **académicos y educativos**, dentro del Producto Integrador de Aprendizaje (PIA) de la materia *Programación para Ciberseguridad*.
 
 ### ✔ Uso permitido
-
 * Laboratorios personales
 * Redes privadas propias
 * Sistemas donde exista **autorización explícita**
 
 ### ❌ Prohibido
-
 * Redes corporativas
 * Redes públicas
 * Sistemas de terceros sin permiso por escrito
 
 El equipo no se responsabiliza por el uso indebido de este software.
+
+---
+
+## 👨‍💻 Equipo y Roles del Proyecto
+
+* **MORALES MEDINA, GILBERTO:** Especialista Módulo 1 (Reconocimiento de Red)
+* **Guzman Martinez, Roel Antonio:** Líder de Proyecto / Integrador de Pipeline
+* **QUEZADA ANTONIO, GUILLERMO:** Documentación y Control de Calidad
+* **FLORES MOLINA, AXEL ALEJANDRO:** QA y Recursos de Ataque (Listas de `users.txt`/`passwords.txt`)
+* **VILLARREAL SARACCO, EMILIANO:** Especialista Módulo 2 (Autenticación SSH)
 
 ---
 
@@ -43,7 +51,8 @@ RedScan-Py/
 │   ├── ai\_plan.md            \# Plan de integración de IA
 │   ├── entregable\_2.md
 │   ├── entregable\_3.md
-│   └── entregable\_4.md       \# Avance más reciente
+│   ├── entregable\_4.md  
+│   └── reporte\_final.md      \# Reporte de cierre del proyecto
 ├── examples/
 │   ├── logs.jsonl            \# Logs generados (JSON Lines)
 │   ├── scan\_results.json     \# Resultados del escaneo (Tarea 1)
@@ -61,9 +70,27 @@ RedScan-Py/
 │       └── check\_ssh.py
 ├── .gitignore
 ├── README.md                 \# Este archivo
-└── requirements.txt          \# Dependencias de Python
+├── requirements.txt          \# Dependencias de Python
+├── users.txt                 \# Lista de usuarios a probar
+└── passwords.txt             \# Lista de contraseñas a probar
 
 ````
+
+---
+
+## 🚀 Estado del Proyecto
+
+**Versión:** 1.0.0 (PIA Final)
+**Estado:** Completado.
+
+El proyecto cumple con todos los requisitos del PIA. El pipeline (PowerShell + Python) es completamente funcional:
+
+1.  **Detecta la IP local** (`ipconfig`).
+2.  **Lee listas** de usuarios y contraseñas (`users.txt`, `passwords.txt`).
+3.  **Prueba todas las combinaciones SSH** y genera `scan_results.json` con éxitos y fallos.
+4.  **Solicita de forma segura (`****`)** y guarda la API key de Google.
+5.  **Envía los resultados a la IA** (con reintentos) y genera un `executive_summary.md`.
+6.  **Registra toda la ejecución** en `examples/logs.jsonl`.
 
 ---
 
@@ -124,3 +151,11 @@ Se incorporó inteligencia artificial para el análisis de los resultados del es
   * `prompts/prompt_v1.json` → Plantilla del prompt enviado a la IA.
   * `scripts/run_pipeline.ps1` → Orquestador que llama al script de IA y maneja la API key de forma interactiva.
   * **Manejo de Errores:** El script de IA incluye reintentos (`retries`) para manejar fallos temporales de la API.
+
+-----
+
+## 📚 Documentación del Proyecto
+
+  * **[Plan de IA (`/docs/ai_plan.md`)](https://www.google.com/search?q=./docs/ai_plan.md):** Describe el propósito y la implementación de la API de Google Gemini.
+  * **[Reporte Final (`/docs/reporte_final.md`)](https://www.google.com/search?q=./docs/reporte_final.md):** Detalla las decisiones técnicas y cambios clave realizados.
+  * **[Avances (`/docs/`)](https://www.google.com/search?q=./docs/):** Carpeta con todos los reportes de entregables (2, 3, 4).
